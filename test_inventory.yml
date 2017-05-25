@@ -1,0 +1,20 @@
+---
+- hosts: all
+  tasks:
+    - command: date
+
+- hosts: app
+  tasks:
+   - command: date
+
+- hosts: dev
+  tasks:
+    - command: date
+
+- hosts: prod
+  tasks:
+    - command: date
+
+- hosts: "all:&{{app_env}}:&{{app_type}}"
+  tasks:
+    - command: date
