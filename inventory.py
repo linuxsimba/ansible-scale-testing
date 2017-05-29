@@ -16,7 +16,7 @@ class DockerInventory(object):
         self.hostname_base = 'ts'
         self.software_groups = ['app', 'web', 'db']
         self.environment_groups = ['dev', 'test', 'prod']
-        self.host_count = 36
+        self.host_count = 18
         self.host_range = range(1, self.host_count+1)
         self.ansible_groups = {}
         for _group in self.software_groups:

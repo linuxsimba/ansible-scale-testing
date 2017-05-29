@@ -1,0 +1,5 @@
+---
+- hosts: "prod:&db"
+  tasks:
+    - pause: minutes=10
+

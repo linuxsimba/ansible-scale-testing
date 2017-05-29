@@ -1,0 +1,21 @@
+---
+- hosts: all
+  tasks:
+    - debug: msg="all hosts"
+
+- hosts: app
+  tasks:
+    - debug: msg="app hosts"
+
+- hosts: dev
+  tasks:
+    - debug: msg="dev hosts"
+
+- hosts: prod
+  tasks:
+    - debug: msg="prod hosts"
+
+- hosts: "prod:&web"
+  tasks:
+    - debug: msg="prod hosts with web apps"
+
