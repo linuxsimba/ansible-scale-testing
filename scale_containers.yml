@@ -11,4 +11,4 @@
           - "90{{ item }}:22"
         env:
           AUTHORIZED_KEYS="{{ lookup('file', '/home/skamithi/.ssh/ansible_test.pub')}}"
-      with_sequence: start=1 end=18 format='%02d'
+      with_sequence: start=1 end=36 format='%02d'

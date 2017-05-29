@@ -15,6 +15,6 @@
   tasks:
     - command: date
 
-- hosts: "all:&{{app_env}}:&{{app_type}}"
+- hosts: "prod:&web"
   tasks:
     - command: date
