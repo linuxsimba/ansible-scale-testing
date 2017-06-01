@@ -15,6 +15,10 @@
   tasks:
     - debug: msg="prod hosts"
 
+- hosts: tunnel
+  tasks:
+    - debug: msg=" tunnel host"
+
 - hosts: "prod:&web"
   tasks:
     - debug: msg="prod hosts with web apps"
