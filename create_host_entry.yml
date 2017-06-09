@@ -7,6 +7,6 @@
   delegate_to: jumphost
 
 - name: add ssh host key to awx known_host file
-  - lineinfile:
-      dest: "{{ ansible_user_dir }}/.ssh/known_hosts"
-      line: "{{ host_fingerprint.stdout }}"
+  lineinfile:
+    dest: "{{ ansible_user_dir }}/.ssh/known_hosts"
+    line: "{{ host_fingerprint.stdout }}"
