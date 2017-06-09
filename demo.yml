@@ -1,8 +1,4 @@
 ---
-- hosts: all
-  tasks:
-    - debug: msg="all hosts"
-
 - hosts: app
   tasks:
     - debug: msg="app hosts"
