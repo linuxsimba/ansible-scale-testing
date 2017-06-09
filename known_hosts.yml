@@ -19,6 +19,7 @@
       lineinfile:
         dest: "{{ ansible_user_dir }}/.ssh/known_hosts"
         line: "{{ jumphost_fingerprint.stdout }}"
+        create: yes
 
     - include: create_host_entry.yml
       with_items: "{{ groups['all'] }}"
