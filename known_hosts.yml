@@ -1,5 +1,6 @@
 ---
 - hosts: localhost
+  gather_facts: no
   tasks:
     - name: add jumphost to hostvars
       add_host:
@@ -12,7 +13,6 @@
     - name: get host key of jumphost
       command: ssh-keyscan jumphost"
       register: jumphost_fingerprint
-      delegate_to: jumphost
 
     - name: add jumphost host key to awx user known hosts
       known_hosts:
@@ -21,6 +21,7 @@
 
     - include: create_host_entry.yml
       with_items: "{{ groups['all'] }}"
+
     - fail: msg="stop here"
 
 
