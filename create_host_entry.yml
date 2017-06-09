@@ -5,6 +5,7 @@
   command: "ssh-keyscan {{ nodename }}"
   register: host_fingerprint
   delegate_to: jumphost
+  remote_user: skamithi
 
 - name: add ssh host key to awx known_host file
   lineinfile:
