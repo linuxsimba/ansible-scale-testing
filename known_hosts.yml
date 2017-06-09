@@ -12,6 +12,7 @@
     - name: get host key of jumphost
       command: ssh-keyscan jumphost"
       register: jumphost_fingerprint
+      delegate_to: jumphost
 
     - name: add jumphost host key to awx user known hosts
       known_hosts:
