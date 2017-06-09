@@ -6,7 +6,7 @@
   register: host_fingerprint
   delegate_to: jumphost
 
-- name: add host behind the ssh-proxy to the tower awx known host
-  known_hosts:
-    key: "{{ host_fingerprint.stdout }}"
-    name: "{{ nodename }}"
+- name: add ssh host key to awx known_host file
+  - lineinfile:
+      dest: "{{ ansible_user_dir }}/.ssh/known_hosts"
+      line: "{{ host_fingerprint.stdout }}"

@@ -16,9 +16,9 @@
       register: jumphost_fingerprint
 
     - name: add jumphost host key to awx user known hosts
-      known_hosts:
-        key: "{{ jumphost_fingerprint.stdout  }}"
-        name: skamithi-personal
+      lineinfile:
+        dest: "{{ ansible_user_dir }}/.ssh/known_hosts"
+        line: "{{ jumphost_fingerprint.stdout }}"
 
     - include: create_host_entry.yml
       with_items: "{{ groups['all'] }}"
