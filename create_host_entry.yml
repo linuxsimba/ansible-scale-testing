@@ -8,5 +8,5 @@
 
 - name: add host behind the ssh-proxy to the tower awx known host
   known_hosts:
-    key: "{{ host_fingerprint }}"
+    key: "{{ host_fingerprint.stdout }}"
     name: "{{ nodename }}"
