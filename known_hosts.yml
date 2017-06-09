@@ -1,6 +1,8 @@
 ---
 - hosts: localhost
   connection: local
+  become: yes
+  become_user: awx
   gather_facts: yes
   tasks:
     - name: add jumphost to hostvars
