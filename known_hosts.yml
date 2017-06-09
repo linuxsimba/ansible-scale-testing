@@ -4,14 +4,14 @@
   tasks:
     - name: add jumphost to hostvars
       add_host:
-          hostname: "192.168.121.1"
-          ansible_host: "jumphost"
+          hostname: "jumphost"
+          ansible_host: "192.168.121.199"
 
     - name: delete existing known hosts file
       file: path="{{ ansible_user_dir }}/.ssh/known_hosts" state=absent
 
     - name: get host key of jumphost
-      command: ssh-keyscan jumphost"
+      command: "ssh-keyscan {{ hostvars['jumphost'].ansible_host}} "
       register: jumphost_fingerprint
 
     - name: add jumphost host key to awx user known hosts
