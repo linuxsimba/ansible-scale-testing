@@ -6,6 +6,7 @@
   register: host_fingerprint
   delegate_to: jumphost
   remote_user: skamithi
+  become: false
 
 - name: add ssh host key to awx known_host file
   lineinfile:
