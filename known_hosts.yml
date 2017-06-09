@@ -1,11 +1,12 @@
 ---
 - hosts: localhost
+  connection: local
   gather_facts: no
   tasks:
     - name: add jumphost to hostvars
       add_host:
           hostname: "jumphost"
-          ansible_host: "192.168.121.199"
+          ansible_host: "192.168.121.1"
 
     - name: delete existing known hosts file
       file: path="{{ ansible_user_dir }}/.ssh/known_hosts" state=absent
