@@ -18,7 +18,7 @@
     - name: add jumphost host key to awx user known hosts
       known_hosts:
         key: "{{ jumphost_fingerprint.stdout  }}"
-      name: jumphost
+        name: jumphost
 
     - include: create_host_entry.yml
       with_items: "{{ groups['all'] }}"
