@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: "delete {{ ansible_user_id }} ssh known hosts"
+      file: path="{{ ansible_user_id}}/.ssh/known_hosts" state=absent
+
+    - include: create_single_host.yml
+      with_items: "{{ groups['all'] }}"
+
+

@@ -59,8 +59,8 @@ class DockerInventory(object):
 
         self.inventory['_meta'] = {'hostvars': {}}
         for _i in self.host_range:
-            self.inventory['_meta']['hostvars']["ts%02d" % (_i)] = {
-                'ansible_port': "90%02d" % (_i),
+            self.inventory['_meta']['hostvars']["ts%03d" % (_i)] = {
+                'ansible_port': "9%03d" % (_i),
                 'ansible_host': 'localhost'
             }
         for _ansible_group, _hostnumbers in self.ansible_groups.items():

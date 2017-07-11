@@ -1,5 +1,5 @@
 ---
-- hosts: app
+- hosts: app[0]
   tasks:
     - debug: msg="app hosts"
 

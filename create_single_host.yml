@@ -1,0 +1,12 @@
+- set_fact:
+    nodename: "{{ hostvars[item].ansible_host }}"
+
+- name: "run ssh-keyscan to get the host key of the {{ item }}"
+  command: "ssh-keyscan -t rsa {{ nodename }}"
+  register: host_fingerprint
+
+- name: "add ssh host key to {{ ansible_user_id }} known_host file"
+  lineinfile:
+    dest: "{{ ansible_user_dir }}/.ssh/known_hosts"
+    line: "{{ host_fingerprint.stdout|regex_replace('localhost',item) }}"
+    create: yes
