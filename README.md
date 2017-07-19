@@ -34,6 +34,30 @@ chmod 600 ./keys/ansible_test
 ansible-playbook --private-key=./keys/ansible_test -i inventory.py demo.yml
 
 ```
+
+* Creating a demo environment with Tower Vagrant (Tested on OS X)
+
+This procedure will create a local testing environment using the Vagrant provided by Ansible.
+
+1. Install:
+  * Vagrant
+
+2. Obtain a Tower trial license
+
+3. Provision a vagrant machine using the Tower box
+
+```
+$ vagrant init ansible/tower
+$ vagrant up --provider virtualbox
+$ vagrant ssh
+```
+4. Paste the `tower-vagrant-inventory.py` script into a custom inventory in Tower
+(http://docs.ansible.com/ansible-tower/latest/html/administration/custom_inventory_script.html)
+
+5. Provision your docker containers as above
+
+6. Create a group using the custom inventory script
+
 ## License
 
 MIT
