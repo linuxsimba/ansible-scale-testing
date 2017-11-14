@@ -9,7 +9,7 @@
 
 ```
 cd docker
-docker build -t linuxsimba/debian-python-and-ssh -t linuxsimba/debian-python-and-ssh:latest .
+docker build -t linuxsimba/python-and-ssh -t linuxsimba/python-and-ssh:latest .
 
 ```
 
