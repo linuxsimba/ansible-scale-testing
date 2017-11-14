@@ -6,9 +6,9 @@
       docker_container:
         state: "{{ docker_ops  | default('started') }}"
         name: "ts{{ item }}"
-        image: linuxsimba/debian-python-and-ssh
+        image: linuxsimba/python-and-ssh
         ports:
           - "9{{ item }}:22"
         env:
           AUTHORIZED_KEYS="{{ lookup('file', './keys/ansible_test.pub')}}"
-      with_sequence: start=1 end="{{ docker_count|default(18) }}" format='%03d'
+      with_sequence: start=1 end="{{ docker_count|default(9) }}" format='%03d'
