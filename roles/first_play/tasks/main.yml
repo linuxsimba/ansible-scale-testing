@@ -1,0 +1,9 @@
+- name: set fact in first playbook
+  set_fact:
+    first_play_var: "Philly"
+
+- debug: msg="{{ hostvars[inventory_hostname]['first_play_var'] }}"
+
+- include: second_playbook.yml
+    first_extra_var="{{ philly_var_food }}"
+

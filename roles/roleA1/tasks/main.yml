@@ -1,0 +1,4 @@
+- debug: msg="running RoleA1 task 1"
+- debug: msg="running RoleA2 task 2"
+- include_role:
+    name: "../otherplaybook/roles/playA"

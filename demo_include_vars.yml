@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: "this is my var {{ infra_test }}"
+      include_vars:
+         "{{ infra_test}}.yml"
+    - name: "got a variable from {{ infra_test }}"
+      debug: msg="This is my var {{ testme }}"
