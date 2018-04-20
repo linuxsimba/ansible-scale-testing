@@ -1,5 +1,5 @@
 ---
 - hosts: ts04
   tasks:
-    - include_tasks: concurrency/copy_usr.yml
+    - include_tasks: copy_usr.yml
       with_sequence: start=0 end=1000
