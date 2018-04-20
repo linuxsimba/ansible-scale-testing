@@ -1,0 +1,5 @@
+---
+- name: copy usr to /tmp
+  command: tar cvfz /tmp/usr.tar.gz /usr
+- name: delete /tmp archive
+  command: rm /tmp/usr.tar.gz

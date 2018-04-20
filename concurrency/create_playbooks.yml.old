@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: create Cx playbooks
+      template:
+        src: p1.j2
+        dest: "c{{ item }}.yml"
+      with_sequence: start=1 end=18 format=%02d
