@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import os
 
 try:
     import json
@@ -12,22 +13,18 @@ class DockerInventory(object):
 
     def __init__(self):
         self.inventory = {}
+        self.docker_host = os.environ.get("DOCKER_HOST")
+        if not self.docker_host:
+            self.docker_host = 'localhost'
         self.read_cli_args()
         self.hostname_base = 'ts'
-        self.software_groups = ['app', 'web', 'db']
+        self.software_groups = ['app', 'web', 'ntp']
         self.environment_groups = ['dev', 'test', 'prod']
-        self.host_count = 18
-        self.host_range = range(1, self.host_count+1)
-        self.ansible_groups = {}
-        for _group in self.software_groups:
-            self.ansible_groups[_group] = []
-            for _group in self.environment_groups:
-                self.ansible_groups[_group] = []
+        self.host_count = os.environ.get('HOST_COUNT')
+        if not self.host_count:
+            self.host_count = 21
 
-        # Called with "--list"
-        if self.args.list:
-            self.inventory = self.docker_inventory()
-        elif self.args.host:
+        if self.args.host:
             # Implement a -- host option.. Probably not needed but
             # just leave it here
             self.inventory = self.empty_inventory()
@@ -36,39 +33,38 @@ class DockerInventory(object):
             # if no --list or --host option are specified.  Return an empty inventory
             self.inventory = self.empty_inventory()
 
+        self.create_inventory()
         print(json.dumps(self.inventory))
 
-    def chunks(self, l, n):
-        return [l[i:i + n] for i in xrange(0, len(l), n)]
+    def create_inventory(self):
 
-    def docker_inventory(self):
-        _software_groupings = self.chunks(self.host_range,
-                                          (self.host_count /
-                                           len(self.software_groups)))
-        for _software_group_idx, _groupone in enumerate(_software_groupings):
-            _env_groupings = self.chunks(
-                _groupone,
-                (len(_groupone)/len(self.environment_groups))
-            )
-            for _env_group_idx, _grouptwo in enumerate(_env_groupings):
-                for _hostitem in _grouptwo:
-                    self.ansible_groups[self.software_groups
-                                        [_software_group_idx]].append(_hostitem)
-                    self.ansible_groups[self.environment_groups
-                                        [_env_group_idx]].append(_hostitem)
-
-        self.inventory['_meta'] = {'hostvars': {}}
-        for _i in self.host_range:
-            self.inventory['_meta']['hostvars']["ts%02d" % (_i)] = {
-                'ansible_port': "90%02d" % (_i),
-                'ansible_host': 'localhost'
-            }
-        for _ansible_group, _hostnumbers in self.ansible_groups.items():
+        for _ansible_group in self.software_groups:
             self.inventory[_ansible_group] = {}
-            self.inventory[_ansible_group]['hosts'] = \
-                ["%s%02d" % (self.hostname_base, x) for x in _hostnumbers]
-
-        return self.inventory
+            self.inventory[_ansible_group]['hosts'] = []
+        for _ansible_group in self.environment_groups:
+            self.inventory[_ansible_group] = {}
+            self.inventory[_ansible_group]['hosts'] = []
+        self.inventory['_meta']['hostvars'] = {}
+        hostname_prefix = 'ts'
+        software_group_length = len(self.software_groups)
+        env_group_length = len(self.environment_groups)
+        _env_group_index = 0
+        for _count in range(1, self.host_count+1):
+            _hostname = "%s%02d" % (hostname_prefix, _count)
+            self.inventory['_meta']['hostvars'][_hostname] = {
+                'ansible_port': "90%02d" % (_count),
+                'ansible_host':  self.docker_host,
+                'ntp_master': 'ts01'
+            }
+            _software_group_index = _count % software_group_length
+            _software_group = self.software_groups[_software_group_index]
+            self.inventory[_software_group]['hosts'].append(_hostname)
+            if ((_count % env_group_length) == 0):
+                _env_group_index += 1
+                if _env_group_index == (env_group_length):
+                    _env_group_index = 0
+            _env_group = self.environment_groups[_env_group_index]
+            self.inventory[_env_group]['hosts'].append(_hostname)
 
     def empty_inventory(self):
         return {'_meta': {'host_vars': {}}}
